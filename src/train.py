@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 
 df = pd.read_csv("../data/churn.csv")
 print("Dataset Loaded Successfully ✅")
@@ -36,3 +37,14 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 print("\nTraining set:", X_train.shape)
 print("Testing set:", X_test.shape)
+
+#random forest model
+
+rf_model = RandomForestClassifier(random_state=42)
+rf_model.fit(X_train, y_train)
+
+rf_pred = rf_model.predict(X_test)
+rf_acc = accuracy_score(y_test, rf_pred)
+
+print("\nBaseline Random Forest Accuracy:", rf_acc)
+
