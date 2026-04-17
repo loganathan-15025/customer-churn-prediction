@@ -1,4 +1,5 @@
 import pandas as pd
+import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
@@ -6,7 +7,7 @@ from sklearn.model_selection import GridSearchCV
 from lightgbm import LGBMClassifier
 
 df = pd.read_csv("../data/churn.csv")
-print("Dataset Loaded Successfully ✅")
+print("Dataset Loaded Successfully")
 print("Shape:", df.shape)
 print(df.head())
 
@@ -91,3 +92,25 @@ lgbm_pred = lgbm_model.predict(X_test)
 lgbm_acc = accuracy_score(y_test, lgbm_pred)
 
 print("\nLightGBM Accuracy:", lgbm_acc)
+
+#model comparision
+
+print("\nRandom Forest Accuracy:", rf_acc_tuned)
+print("LightGBM Accuracy:", lgbm_acc)
+
+if lgbm_acc > rf_acc_tuned:
+    final_model = lgbm_model
+    print("\nSelected Model: LightGBM")
+else:
+    final_model = rf_best
+    print("\nSelected Model: Random Forest")
+
+#save model
+with open("model.pkl", "wb") as f:
+    pickle.dump(final_model, f)
+
+#save column names
+with open("columns.pkl", "wb") as f:
+    pickle.dump(X.columns.tolist(), f)
+
+print("\nModel trained and saved")
