@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import GridSearchCV
+from lightgbm import LGBMClassifier
 
 df = pd.read_csv("../data/churn.csv")
 print("Dataset Loaded Successfully ✅")
@@ -75,3 +76,18 @@ rf_pred_tuned = rf_best.predict(X_test)
 rf_acc_tuned = accuracy_score(y_test, rf_pred_tuned)
 
 print("Tuned Random Forest Accuracy:", rf_acc_tuned)
+
+#lightbgm model
+
+lgbm_model = LGBMClassifier(
+    n_estimators=200,
+    learning_rate=0.05,
+    max_depth=7,
+    random_state=42
+)
+
+lgbm_model.fit(X_train, y_train)
+lgbm_pred = lgbm_model.predict(X_test)
+lgbm_acc = accuracy_score(y_test, lgbm_pred)
+
+print("\nLightGBM Accuracy:", lgbm_acc)
