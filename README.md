@@ -51,21 +51,24 @@ LightGBM Accuracy approximately **78 percent**
 Churn is mainly influenced by customer tenure, contract type, monthly charges, and payment method.
 New customers and those with flexible contracts are more likely to churn.
 
-**Project Structure**
+## 📁 Project Structure
 
+```
 customer-churn-prediction/
 │
 ├── data/
-│   └── churn.csv
-
+│   └── churn.csv              # Dataset
+│
 ├── src/
-│   ├── train.py
-│   ├── app.py
+│   ├── train.py               # Model training script
+│   ├── app.py                 # Streamlit application
+│
+├── model.pkl                  # Trained ML model
+├── columns.pkl                # Saved feature columns
+├── requirements.txt           # Dependencies
+├── README.md                  # Project documentation
+```
 
-├── model.pkl
-├── columns.pkl
-├── requirements.txt
-├── README.md
 
 **How to Run**
 
