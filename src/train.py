@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import GridSearchCV
 
 df = pd.read_csv("../data/churn.csv")
 print("Dataset Loaded Successfully ✅")
@@ -48,3 +49,29 @@ rf_acc = accuracy_score(y_test, rf_pred)
 
 print("\nBaseline Random Forest Accuracy:", rf_acc)
 
+#model improvement using gridsearchcv
+
+param_grid = {
+    'n_estimators': [100, 200],
+    'max_depth': [8, 10, 12],
+    'min_samples_split': [2, 5]
+}
+
+rf_grid = GridSearchCV(
+    RandomForestClassifier(random_state=42),
+    param_grid,
+    cv=3,
+    n_jobs=-1
+)
+
+rf_grid.fit(X_train, y_train)
+
+rf_best = rf_grid.best_estimator_
+
+print("\nBest Parameters:", rf_grid.best_params_)
+
+rf_pred_tuned = rf_best.predict(X_test)
+
+rf_acc_tuned = accuracy_score(y_test, rf_pred_tuned)
+
+print("Tuned Random Forest Accuracy:", rf_acc_tuned)
